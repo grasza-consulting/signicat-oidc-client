@@ -5,14 +5,14 @@ const clientIssuer = new Issuer({
   authorization_endpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
   token_endpoint: 'https://www.googleapis.com/oauth2/v4/token',
   userinfo_endpoint: 'https://www.googleapis.com/oauth2/v3/userinfo',
-  jwks_uri: 'https://www.googleapis.com/oauth2/v3/certs',
+  jwks_uri: 'https://www.googleapis.com/oauth2/v3/certs'
 }); // => Issuer
 
 export default class Signicat {
   constructor(clientID, clientSecret) {
     this.client = new clientIssuer.Client({
       client_id: clientID,
-      client_secret: clientSecret,
+      client_secret: clientSecret
     });
   }
 
@@ -27,13 +27,13 @@ export default class Signicat {
     if (!isPost) {
       return this.getClient().authorizationUrl({
         redirect_uri: redirectURI,
-        scope: scope,
+        scope: scope
       });
     }
 
     return this.getClient().authorizationPost({
       redirect_uri: redirectURI,
-      scope: scope,
+      scope: scope
     });
   }
 

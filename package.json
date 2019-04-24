@@ -10,7 +10,8 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
-    "openid-client": "^2.4.5"
+    "openid-client": "^2.4.5",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
