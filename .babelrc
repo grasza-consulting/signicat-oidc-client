@@ -1,0 +1,23 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "browsers": ["last 2 versions", "> 2%", "safari >= 7"]
+      },
+      "modules": "umd",
+      "useBuiltIns": "entry"
+    }, "react"]
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": 2,
+        "helpers": true,
+        "regenerator": true,
+        "useESModules": false
+      }
+    ],
+    "babel-plugin-add-module-exports"
+  ]
+}

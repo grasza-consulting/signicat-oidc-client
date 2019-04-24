@@ -4,7 +4,29 @@
   "description": "Signicat OpenID Connect Client ",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "build": "webpack --env es2015",
+    "dev": "webpack --progress --colors --watch --env dev",
+    "lint": "eslint ./src"
+  },
   "dependencies": {
     "openid-client": "^2.4.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-transform-runtime": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/runtime-corejs2": "^7.4.3",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-add-module-exports": "^1.0.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "eslint": "^5.16.0",
+    "eslint-loader": "^2.1.2",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1",
+    "yargs": "^13.2.2"
   }
 }
