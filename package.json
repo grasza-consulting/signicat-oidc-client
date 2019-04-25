@@ -1,8 +1,8 @@
 {
   "name": "signicat-oidc-client",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Signicat OpenID Connect Client ",
-  "main": "index.js",
+  "main": "src/signicat.js",
   "license": "MIT",
   "scripts": {
     "build": "webpack --env es2015",
