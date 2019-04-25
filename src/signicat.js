@@ -8,7 +8,7 @@ const clientIssuer = new Issuer({
   jwks_uri: 'https://www.googleapis.com/oauth2/v3/certs'
 }); // => Issuer
 
-export default class Signicat {
+class Signicat {
   constructor(clientID, clientSecret) {
     this.client = new clientIssuer.Client({
       client_id: clientID,
@@ -57,3 +57,5 @@ export default class Signicat {
     return this.getClient().userinfo(accessToken, params);
   }
 }
+
+module.exports = {Signicat};
