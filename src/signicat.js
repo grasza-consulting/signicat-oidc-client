@@ -1,60 +1,75 @@
 const { Issuer } = require('openid-client');
 
-const clientIssuer = new Issuer({
-  issuer: 'https://accounts.google.com',
-  authorization_endpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
-  token_endpoint: 'https://www.googleapis.com/oauth2/v4/token',
-  userinfo_endpoint: 'https://www.googleapis.com/oauth2/v3/userinfo',
-  jwks_uri: 'https://www.googleapis.com/oauth2/v3/certs'
-}); // => Issuer
+const DISCOVER_DOMAIN = 'https://dev-zc3yb-ev.eu.auth0.com';
 
 class Signicat {
   constructor(clientID, clientSecret) {
-    this.client = new clientIssuer.Client({
-      client_id: clientID,
-      client_secret: clientSecret
-    });
+    this.client = this.discover()
+      .then((issuer) => {
+        return new issuer.Client({
+          client_id: clientID,
+          client_secret: clientSecret
+        });
+      });
   }
 
   /**
-   * @returns {Issuer.Client}
+   * @returns {Promise<Issuer.Client>}
    */
   getClient() {
     return this.client;
   }
 
-  getAuthorizationUrl(redirectURI, scope, isPost = false) {
+  discover() {
+    return Issuer.discover(DISCOVER_DOMAIN);
+  }
+
+  getAuthorizationUrlPromise(redirectURI, scope, isPost = false) {
     if (!isPost) {
-      return this.getClient().authorizationUrl({
-        redirect_uri: redirectURI,
-        scope: scope
+      return this.getClient().then((client) => {
+        return client.authorizationUrl({
+          redirect_uri: redirectURI,
+          scope: scope
+        });
       });
     }
 
-    return this.getClient().authorizationPost({
-      redirect_uri: redirectURI,
-      scope: scope
+    return this.getClient().then((client) => {
+      client.authorizationPost({
+        redirect_uri: redirectURI,
+        scope: scope
+      });
     });
   }
 
   getAuthorizationCallbackPromise(url, query, state = {}) {
-    return this.getClient().authorizationCallback(url, query, state);
+    return this.getClient().then((client) => {
+      return client.authorizationCallback(url, query, state);
+    });
   }
 
   getRefreshTokenPromise(refreshToken) {
-    return this.getClient().refresh(refreshToken);
+    return this.getClient().then((client) => {
+      return client.refresh(refreshToken);
+    });
   }
 
   getRevokeTokenPromise(token, tokenTypeHint) {
-    return this.getClient().revoke(token, [tokenTypeHint]);
+    return this.getClient().then((client) => {
+      return client.revoke(token, [tokenTypeHint]);
+    });
   }
 
   getIntrospectTokenPromise(token, tokenTypeHint) {
-    return this.getClient().introspect(token, [tokenTypeHint]);
+    return this.getClient().then((client) => {
+      return client.introspect(token, [tokenTypeHint]);
+    });
   }
 
   getUserInfoPromise(accessToken, params = {}) {
-    return this.getClient().userinfo(accessToken, params);
+    return this.getClient().then((client) => {
+      return client.userinfo(accessToken, params);
+    });
   }
 }
 
