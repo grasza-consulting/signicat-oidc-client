@@ -30,21 +30,15 @@ class Signicat {
     });
   }
 
-  getAuthorizationUrlPromise(redirectURI, scope, isPost = false) {
+  getAuthorizationUrlPromise(params, isPost = false) {
     if (!isPost) {
       return this.getClient().then((client) => {
-        return client.authorizationUrl({
-          redirect_uri: redirectURI,
-          scope: scope
-        });
+        return client.authorizationUrl(params);
       });
     }
 
     return this.getClient().then((client) => {
-      client.authorizationPost({
-        redirect_uri: redirectURI,
-        scope: scope
-      });
+      client.authorizationPost(params);
     });
   }
 
