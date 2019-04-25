@@ -1,6 +1,6 @@
 {
   "name": "signicat-oidc-client",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Signicat OpenID Connect Client ",
   "main": "src/signicat.js",
   "license": "MIT",
