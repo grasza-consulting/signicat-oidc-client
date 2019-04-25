@@ -24,6 +24,12 @@ class Signicat {
     return Issuer.discover(DISCOVER_DOMAIN);
   }
 
+  getCallbackParamsPromise(params) {
+    return this.getClient().then((client) => {
+      return client.callbackParams(params);
+    });
+  }
+
   getAuthorizationUrlPromise(redirectURI, scope, isPost = false) {
     if (!isPost) {
       return this.getClient().then((client) => {
