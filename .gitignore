@@ -85,4 +85,4 @@ typings/
 
 .idea/
 .vscode/
-./test.js
+test.js
