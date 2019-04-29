@@ -10,6 +10,7 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
     "openid-client": "^2.4.5",
     "request": "^2.88.0"
   },

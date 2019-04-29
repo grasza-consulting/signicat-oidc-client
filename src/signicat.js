@@ -1,4 +1,5 @@
 const { Issuer } = require('openid-client');
+const crypto = require('crypto');
 
 const DISCOVER_DOMAIN = 'https://dev-zc3yb-ev.eu.auth0.com';
 
@@ -13,6 +14,25 @@ class Signicat {
       });
   }
 
+  static init(clientID, clientSecret) {
+    return new Signicat(clientID, clientSecret);
+  }
+
+  static generateRandomString(bytesLength = 8) {
+    return crypto.randomBytes(bytesLength).toString('hex');
+  }
+
+  static generateParams(nonce, state, callbackURL) {
+    return {
+      nonce: nonce,
+      state: state,
+      redirect_uri: callbackURL,
+      scope: 'openid profile email',
+      response_type: 'token id_token',
+      response_mode: 'form_post'
+    };
+  }
+
   /**
    * @returns {Promise<Issuer.Client>}
    */
@@ -24,49 +44,43 @@ class Signicat {
     return Issuer.discover(DISCOVER_DOMAIN);
   }
 
-  getCallbackParamsPromise(params) {
+  getCallbackParams(params) {
     return this.getClient().then((client) => {
       return client.callbackParams(params);
     });
   }
 
-  getAuthorizationUrlPromise(params, isPost = false) {
-    if (!isPost) {
-      return this.getClient().then((client) => {
-        return client.authorizationUrl(params);
-      });
-    }
-
+  getAuthorizationUrl(params) {
     return this.getClient().then((client) => {
-      client.authorizationPost(params);
+      return client.authorizationUrl(params);
     });
   }
 
-  getAuthorizationCallbackPromise(url, query, state = {}) {
+  getAuthorizationCallback(url, query, state = {}) {
     return this.getClient().then((client) => {
       return client.authorizationCallback(url, query, state);
     });
   }
 
-  getRefreshTokenPromise(refreshToken) {
+  getRefreshToken(refreshToken) {
     return this.getClient().then((client) => {
       return client.refresh(refreshToken);
     });
   }
 
-  getRevokeTokenPromise(token, tokenTypeHint) {
+  getRevokeToken(token, tokenTypeHint) {
     return this.getClient().then((client) => {
       return client.revoke(token, [tokenTypeHint]);
     });
   }
 
-  getIntrospectTokenPromise(token, tokenTypeHint) {
+  getIntrospectToken(token, tokenTypeHint) {
     return this.getClient().then((client) => {
       return client.introspect(token, [tokenTypeHint]);
     });
   }
 
-  getUserInfoPromise(accessToken, params = {}) {
+  getUserInfo(accessToken, params = {}) {
     return this.getClient().then((client) => {
       return client.userinfo(accessToken, params);
     });
