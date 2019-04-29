@@ -22,7 +22,16 @@ class Signicat {
     return crypto.randomBytes(bytesLength).toString('hex');
   }
 
-  static generateParams(nonce, state, callbackURL) {
+  static generateParams(callbackURL, nonce, state) {
+
+    if (nonce === undefined) {
+      nonce = Signicat.generateRandomString(8);
+    }
+
+    if (state === undefined) {
+      state = Signicat.generateRandomString(10);
+    }
+
     return {
       nonce: nonce,
       state: state,
