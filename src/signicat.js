@@ -1,7 +1,7 @@
 const { Issuer } = require('openid-client');
 const crypto = require('crypto');
 
-const DISCOVER_DOMAIN = 'https://dev-zc3yb-ev.eu.auth0.com';
+const DISCOVER_DOMAIN = 'https://preprod.signicat.com/oidc/';
 
 class Signicat {
   constructor(clientID, clientSecret) {
